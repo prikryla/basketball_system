@@ -15,13 +15,13 @@ class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
-        return $this->render('login.html.twig');
+        return $this->render('dashboard.html.twig');
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('New Easyadmin Demo');
+            ->setTitle('BBK Blansko');
     }
 
     public function configureMenuItems(): iterable
