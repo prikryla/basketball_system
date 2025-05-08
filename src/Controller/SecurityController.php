@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
             // the title visible above the login form (define this option only if you are
             // rendering the login template in a regular Symfony controller; when rendering
             // it from an EasyAdmin Dashboard this is automatically set as the Dashboard title)
-            'page_title' => 'Informacni system BBK Blansko',
+            'page_title' => 'Informační systém BBK Blansko',
 
             // the string used to generate the CSRF token. If you don't define
             // this parameter, the login form won't include a CSRF token
@@ -48,10 +48,10 @@ class SecurityController extends AbstractController
             'target_path' => $this->generateUrl('admin'),
 
             // the label displayed for the username form field (the |trans filter is applied to it)
-            'username_label' => 'Your username',
+            'username_label' => 'Uživatelské jméno',
 
             // the label displayed for the password form field (the |trans filter is applied to it)
-            'password_label' => 'Your password',
+            'password_label' => 'Heslo',
 
             // the label displayed for the Sign In form button (the |trans filter is applied to it)
             'sign_in_label' => 'Log in',
@@ -60,19 +60,7 @@ class SecurityController extends AbstractController
             'forgot_password_enabled' => true,
 
             // the label displayed for the "forgot password?" link (the |trans filter is applied to it)
-            'forgot_password_label' => 'Forgot your password?',
-
-            // whether to enable or not the "remember me" checkbox (default: false)
-            'remember_me_enabled' => true,
-
-            // remember me name form field (default: '_remember_me')
-            'remember_me_parameter' => 'custom_remember_me_param',
-
-            // whether to check by default the "remember me" checkbox (default: false)
-            'remember_me_checked' => true,
-
-            // the label displayed for the remember me checkbox (the |trans filter is applied to it)
-            'remember_me_label' => 'Remember me',
+            'forgot_password_label' => 'Zapomněli jste heslo?',
         ]);
     }
 }
