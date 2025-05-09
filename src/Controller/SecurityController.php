@@ -14,12 +14,10 @@ class SecurityController extends AbstractController
 
     {
         $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('@EasyAdmin/page/login.html.twig', [
             // parameters usually defined in Symfony login forms
             'error' => $error,
-            'last_username' => $lastUsername,
 
             // OPTIONAL parameters to customize the login form:
 
@@ -48,7 +46,7 @@ class SecurityController extends AbstractController
             'target_path' => $this->generateUrl('admin'),
 
             // the label displayed for the username form field (the |trans filter is applied to it)
-            'username_label' => 'Uživatelské jméno',
+            'username_label' => 'Email',
 
             // the label displayed for the password form field (the |trans filter is applied to it)
             'password_label' => 'Heslo',
@@ -62,5 +60,11 @@ class SecurityController extends AbstractController
             // the label displayed for the "forgot password?" link (the |trans filter is applied to it)
             'forgot_password_label' => 'Zapomněli jste heslo?',
         ]);
+    }
+
+    #[Route('/logout', name: 'logout')]
+    public function logout(): void
+    {
+        throw new \Exception('This should never be reached!');
     }
 }

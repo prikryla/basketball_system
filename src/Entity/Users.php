@@ -154,4 +154,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // Clear temporary sensitive data, if any
     }
+
+
 }
