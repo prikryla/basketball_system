@@ -38,7 +38,13 @@ class UsersCrudController extends AbstractCrudController
             TextField::new('last_name'),
             DateField::new('date_of_birth'),
             TextField::new('phone_number'),
-            TextField::new('category'),
+            ChoiceField::new('roles')
+            ->setChoices([
+                'Admin' => 'ROLE_ADMIN',
+                'User' => 'ROLE_USER',
+            ])
+            ->allowMultipleChoices()
+            ->renderExpanded(),
             TextField::new('email'),
             TextField::new('password')
                 ->setRequired(false)  // Make password field optional when editing

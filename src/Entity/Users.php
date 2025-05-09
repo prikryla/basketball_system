@@ -34,7 +34,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private array $roles = [];
-
+    
     #[ORM\Column(length: 15, nullable: true)]
     private ?string $phone_number = null;
 
@@ -110,13 +110,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        if (!in_array('ROLE_USER', $roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-        return array_unique($roles);
+    
+        return $roles;
     }
-
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
