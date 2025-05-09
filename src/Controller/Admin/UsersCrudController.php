@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -32,9 +34,11 @@ class UsersCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('first_name'),
             TextField::new('last_name'),
+            DateField::new('date_of_birth'),
+            TextField::new('phone_number'),
+            TextField::new('category'),
             TextField::new('email'),
             TextField::new('password')
                 ->setRequired(false)  // Make password field optional when editing
@@ -42,21 +46,25 @@ class UsersCrudController extends AbstractCrudController
         ];
     }
 
-    public function createEntity(string $entityFqcn)
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $user = new Users();
-
-        // Set the password if provided
-        if ($plainPassword = $user->getPassword()) {
-            $user->setPassword($this->passwordHasher->hashPassword($user, $plainPassword));
+        if (!$entityInstance instanceof Users) {
+            return;
         }
-
-        // Persist the entity and flush
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        return $user;
+    
+        $plainPassword = $entityInstance->getPassword();
+        if (!empty($plainPassword)) {
+            $hashed = $this->passwordHasher->hashPassword($entityInstance, $plainPassword);
+            $entityInstance->setPassword($hashed);
+        } else {
+            // Reload the original password from the database to avoid blanking it
+            $originalUser = $entityManager->getUnitOfWork()->getOriginalEntityData($entityInstance);
+            $entityInstance->setPassword($originalUser['password']);
+        }
+        $entityManager->persist($entityInstance);
+        $entityManager->flush();
     }
+    
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
