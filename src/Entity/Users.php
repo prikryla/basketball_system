@@ -5,9 +5,12 @@ namespace App\Entity;
 use App\Repository\UsersRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+#[ORM\Table(name: 'users')]
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,13 +26,19 @@ class Users
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $date_of_birth = null;
 
-    #[ORM\Column(length: 40)]
+    #[ORM\Column(length: 40, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 15)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $password = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    #[ORM\Column(length: 15, nullable: true)]
     private ?string $phone_number = null;
 
-    #[ORM\Column(length: 3)]
+    #[ORM\Column(length: 3, nullable: true)]
     private ?string $category = null;
 
     public function getId(): ?int
@@ -40,7 +49,6 @@ class Users
     public function setId(int $id): static
     {
         $this->id = $id;
-
         return $this;
     }
 
@@ -52,7 +60,6 @@ class Users
     public function setFirstName(string $first_name): static
     {
         $this->first_name = $first_name;
-
         return $this;
     }
 
@@ -64,7 +71,6 @@ class Users
     public function setLastName(string $last_name): static
     {
         $this->last_name = $last_name;
-
         return $this;
     }
 
@@ -76,7 +82,6 @@ class Users
     public function setDateOfBirth(\DateTime $date_of_birth): static
     {
         $this->date_of_birth = $date_of_birth;
-
         return $this;
     }
 
@@ -88,8 +93,39 @@ class Users
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email ?? '';
     }
 
     public function getPhoneNumber(): ?string
@@ -100,7 +136,6 @@ class Users
     public function setPhoneNumber(string $phone_number): static
     {
         $this->phone_number = $phone_number;
-
         return $this;
     }
 
@@ -112,7 +147,11 @@ class Users
     public function setCategory(string $category): static
     {
         $this->category = $category;
-
         return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Clear temporary sensitive data, if any
     }
 }

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250503211905 extends AbstractMigration
+final class Version20250509200709 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,7 +21,11 @@ final class Version20250503211905 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, first_name VARCHAR(15) NOT NULL, last_name VARCHAR(20) NOT NULL, date_of_birth DATE NOT NULL, email VARCHAR(40) NOT NULL, phone_number VARCHAR(15) NOT NULL, category VARCHAR(3) NOT NULL)
+            CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, first_name VARCHAR(15) NOT NULL, last_name VARCHAR(20) NOT NULL, date_of_birth DATE NOT NULL, email VARCHAR(40) NOT NULL, password VARCHAR(255) DEFAULT NULL, roles CLOB NOT NULL --(DC2Type:json)
+            , phone_number VARCHAR(15) DEFAULT NULL, category VARCHAR(3) DEFAULT NULL)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE UNIQUE INDEX UNIQ_1483A5E9E7927C74 ON users (email)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE messenger_messages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, body CLOB NOT NULL, headers CLOB NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
