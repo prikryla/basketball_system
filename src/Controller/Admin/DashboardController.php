@@ -32,7 +32,7 @@ class DashboardController extends AbstractDashboardController
         return [ 
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
-            MenuItem::linkToCrud('Users', 'fa fa-user', Users::class),
+            MenuItem::linkToCrud('Users', 'fa fa-users', Users::class),
             MenuItem::linkToCrud('Cities', 'fa fa-city', Cities::class),
             MenuItem::linkToCrud('Drivers', 'fa fa-user', Drivers::class)
         ];
