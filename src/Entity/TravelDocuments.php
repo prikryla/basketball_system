@@ -17,7 +17,12 @@ class TravelDocuments
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?\DateTime $created = null;
+    private ?\DateTimeInterface $created = null;
+
+    public function __construct()
+    {
+        $this->created = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
