@@ -6,6 +6,7 @@ use App\Repository\TravelDocumentsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TravelDocumentsRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class TravelDocuments
 {
     #[ORM\Id]
@@ -19,21 +20,9 @@ class TravelDocuments
     #[ORM\Column]
     private ?\DateTimeInterface $created = null;
 
-    public function __construct()
-    {
-        $this->created = new \DateTimeImmutable();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -48,15 +37,14 @@ class TravelDocuments
         return $this;
     }
 
-    public function getCreated(): ?\DateTime
+    public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
     }
 
-    public function setCreated(\DateTime $created): static
+    #[ORM\PrePersist]
+    public function setCreatedValue(): void
     {
-        $this->created = $created;
-
-        return $this;
+        $this->created = new \DateTimeImmutable();
     }
 }

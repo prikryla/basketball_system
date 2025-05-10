@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Users;
 use App\Entity\Cities;
 use App\Entity\Drivers;
+use App\Entity\TravelDocuments;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -34,7 +35,9 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::linkToCrud('Users', 'fa fa-users', Users::class),
             MenuItem::linkToCrud('Cities', 'fa fa-city', Cities::class),
-            MenuItem::linkToCrud('Drivers', 'fa fa-user', Drivers::class)
+            MenuItem::linkToCrud('Drivers', 'fa fa-user', Drivers::class),
+            MenuItem::linkToCrud('Travel Documents', 'fa fa-file-excel', TravelDocuments::class)
+
         ];
     }
 }
